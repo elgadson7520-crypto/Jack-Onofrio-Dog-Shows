@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jack Onofrio Dog Shows | Elite Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ============================================
+   ONOFRIO DOG SHOWS - ELITE PORTAL
+   Premium Interactive Experience
+   ============================================ */
+
+:root {
+  --gold: #C5A55A;
+  --gold-light: #D4BA78;
+  --gold-dark: #A8883E;
+  --gold-glow: #E8D5A0;
+  --green-dark: #1B4D3E;
+  --green-deeper: #0F2E25;
+  --green-medium: #2A6B56;
+  --green-light: #3A8B6E;
+  --cream: #FAF6EE;
+  --cream-dark: #F0E8D8;
+  --charcoal: #1A1A1A;
+  --slate: #2D3436;
+  --white: #FFFFFF;
+  --shadow-gold: 0 4px 30px rgba(197, 165, 90, 0.3);
+  --shadow-deep: 0 20px 60px rgba(0,0,0,0.4);
+  --gradient-gold: linear-gradient(135deg, #C5A55A 0%, #E8D5A0 50%, #C5A55A 100%);
+  --gradient-green: linear-gradient(135deg, #1B4D3E 0%, #2A6B56 100%);
+  --gradient-hero: linear-gradient(180deg, #0F2E25 0%, #1B4D3E 40%, #2A6B56 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  overflow-x: hidden;
+}
+
+/* ============ PRELOADER ============ */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--green-deeper);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+#preloader .logo-pulse {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+#preloader .logo-pulse img { width: 120px; height: 120px; object-fit: contain; border-radius: 50%; }
+#preloader .loading-bar {
+  width: 200px;
+  height: 3px;
+  background: rgba(197,165,90,0.2);
+  border-radius: 3px;
+  margin-top: 30px;
+  overflow: hidden;
+}
+#preloader .loading-bar::after {
+  content: '';
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: var(--gradient-gold);
+  border-radius: 3px;
+  animation: loadBar 2s ease forwards;
+}
+@keyframes loadBar { to { width: 100%; } }
+@keyframes pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(197,165,90,0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 40px 10px rgba(197,165,90,0.2); }
+}
+
+/* ============ CUSTOM CURSOR ============ */
+.cursor-dot {
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transition: transform 0.1s;
+}
+.cursor-ring {
+  width: 35px; height: 35px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99997;
+  transition: transform 0.15s, width 0.3s, height 0.3s, border-color 0.3s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring.hover {
+  width: 55px; height: 55px;
+  border-color: var(--gold-light);
+  background: rgba(197,165,90,0.1);
+}
+
+/* ============ FLOATING PARTICLES ============ */
+#particles-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============ NAVIGATION ============ */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 18px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  background: transparent;
+}
+nav.scrolled {
+  background: rgba(15, 46, 37, 0.97);
+  backdrop-filter: blur(20px);
+  padding: 12px 50px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+}
+nav .nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+nav .nav-logo img {
+  height: 55px;
+  width: 55px;
+  object-fit: contain;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+nav.scrolled .nav-logo img { height: 45px; width: 45px; }
+nav .nav-logo span {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+}
+nav .nav-links a {
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.3s;
+  position: relative;
+}
+nav .nav-links a:hover {
+  color: var(--gold);
+  background: rgba(197,165,90,0.1);
+}
+nav .nav-links a.active {
+  color: var(--gold);
+  background: rgba(197,165,90,0.15);
+}
+nav .nav-cta {
+  background: var(--gradient-gold);
+  color: var(--green-dark) !important;
+  font-weight: 700 !important;
+  padding: 10px 24px !important;
+  border-radius: 50px !important;
+  box-shadow: var(--shadow-gold);
+}
+nav .nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(197,165,90,0.5);
+  background: linear-gradient(135deg, #D4BA78 0%, #E8D5A0 50%, #D4BA78 100%) !important;
+}
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  z-index: 1001;
+}
+.hamburger span {
+  width: 28px;
+  height: 2px;
+  background: var(--gold);
+  transition: all 0.3s;
+  border-radius: 2px;
+}
+
+/* ============ HERO SECTION ============ */
+#hero {
+  min-height: 100vh;
+  background: var(--gradient-hero);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(197,165,90,0.08) 0%, transparent 60%),
+              radial-gradient(circle at 70% 80%, rgba(42,107,86,0.15) 0%, transparent 50%);
+}
+#hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--cream), transparent);
+  z-index: 2;
+}
+.hero-bg-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C5A55A' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-floating-elements {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-floating-elements .float-ring {
+  position: absolute;
+  border: 1px solid rgba(197,165,90,0.1);
+  border-radius: 50%;
+  animation: floatRing 20s linear infinite;
+}
+.float-ring:nth-child(1) { width: 300px; height: 300px; top: 10%; left: -5%; animation-duration: 25s; }
+.float-ring:nth-child(2) { width: 500px; height: 500px; top: 30%; right: -10%; animation-duration: 30s; animation-direction: reverse; }
+.float-ring:nth-child(3) { width: 200px; height: 200px; bottom: 20%; left: 20%; animation-duration: 20s; }
+@keyframes floatRing {
+  0% { transform: rotate(0deg) translateX(20px); }
+  100% { transform: rotate(360deg) translateX(20px); }
+}
+
+.hero-content {
+  text-align: center;
+  z-index: 3;
+  padding: 0 20px;
+  max-width: 900px;
+}
+.hero-logo-container {
+  margin-bottom: 30px;
+  position: relative;
+  display: inline-block;
+}
+.hero-logo-container img {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 40px rgba(197,165,90,0.3));
+  animation: heroLogoFloat 6s ease-in-out infinite;
+}
+@keyframes heroLogoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+.hero-logo-glow {
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(circle, rgba(197,165,90,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: glowPulse 4s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(197,165,90,0.15);
+  border: 1px solid rgba(197,165,90,0.3);
+  border-radius: 50px;
+  padding: 8px 20px;
+  margin-bottom: 24px;
+  color: var(--gold-light);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+.hero-badge i { color: var(--gold); }
+h1.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+h1.hero-title span.gold { color: var(--gold); }
+h1.hero-title span.italic { font-style: italic; }
+.hero-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: rgba(250,246,238,0.7);
+  margin-bottom: 40px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--gradient-gold);
+  color: var(--green-dark);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 16px 40px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: var(--shadow-gold);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 50px rgba(197,165,90,0.5);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--cream);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 16px 40px;
+  border-radius: 50px;
+  border: 2px solid rgba(197,165,90,0.4);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.4s;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+.btn-secondary:hover {
+  border-color: var(--gold);
+  background: rgba(197,165,90,0.1);
+  color: var(--gold);
+  transform: translateY(-3px);
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(197,165,90,0.15);
+}
+.hero-stat { text-align: center; }
+.hero-stat .number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+}
+.hero-stat .label {
+  font-size: 0.78rem;
+  color: rgba(250,246,238,0.5);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 6px;
+}
+
+/* ============ SCROLL INDICATOR ============ */
+.scroll-indicator {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+.scroll-indicator .mouse {
+  width: 26px;
+  height: 40px;
+  border: 2px solid rgba(197,165,90,0.4);
+  border-radius: 13px;
+  position: relative;
+}
+.scroll-indicator .mouse::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 3px;
+  animation: scrollWheel 2s ease-in-out infinite;
+}
+@keyframes scrollWheel { 0%, 100% { opacity: 1; top: 8px; } 50% { opacity: 0.3; top: 18px; } }
+@keyframes scrollBounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+.scroll-indicator span {
+  font-size: 0.65rem;
+  color: rgba(197,165,90,0.5);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+/* ============ SECTION STYLING ============ */
+section { position: relative; z-index: 5; }
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.section-header .overline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 12px;
+}
+.section-header .overline::before,
+.section-header .overline::after {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: var(--gold);
+}
+.section-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--charcoal);
+  line-height: 1.15;
+}
+.section-header h2 span { color: var(--green-dark); }
+.section-header p {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 600px;
+  margin: 16px auto 0;
+  line-height: 1.6;
+}
+
+/* ============ UPCOMING SHOWS SECTION ============ */
+#shows {
+  padding: 100px 50px;
+  background: var(--cream);
+}
+.shows-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 10px 24px;
+  border-radius: 50px;
+  border: 2px solid #ddd;
+  background: var(--white);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #666;
+}
+.filter-btn:hover, .filter-btn.active {
+  border-color: var(--green-dark);
+  background: var(--green-dark);
+  color: var(--white);
+}
+.shows-search {
+  display: flex;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  position: relative;
+}
+.shows-search input {
+  width: 100%;
+  padding: 16px 24px 16px 50px;
+  border: 2px solid #e0d8c8;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  transition: all 0.3s;
+  outline: none;
+}
+.shows-search input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(197,165,90,0.1);
+}
+.shows-search i {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold-dark);
+  font-size: 1.1rem;
+}
+.shows-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.show-card {
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+}
+.show-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+}
+.show-card .card-accent {
+  height: 4px;
+  background: var(--gradient-gold);
+}
+.show-card .card-body { padding: 28px; }
+.show-card .card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.show-card .card-date {
+  background: var(--green-dark);
+  color: var(--white);
+  border-radius: 14px;
+  padding: 10px 14px;
+  text-align: center;
+  min-width: 65px;
+}
+.show-card .card-date .month {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+.show-card .card-date .day {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.show-card .card-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.show-card .badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.badge-nohs { background: #FEF3C7; color: #92400E; }
+.badge-obedience { background: #DBEAFE; color: #1E40AF; }
+.badge-rally { background: #E0E7FF; color: #3730A3; }
+.badge-bp { background: #D1FAE5; color: #065F46; }
+.badge-open { background: #FCE7F3; color: #9D174D; }
+.show-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.show-card .location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #888;
+  font-size: 0.88rem;
+  margin-bottom: 16px;
+}
+.show-card .location i { color: var(--gold-dark); }
+.show-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #f0ece4;
+}
+.show-card .closing {
+  font-size: 0.78rem;
+  color: #999;
+}
+.show-card .closing strong { color: var(--charcoal); }
+.show-card .enter-btn {
+  background: var(--gradient-gold);
+  color: var(--green-dark);
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 10px 22px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.show-card .enter-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-gold);
+}
+.show-card .countdown {
+  font-size: 0.75rem;
+  color: var(--gold-dark);
+  font-weight: 600;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.show-card .countdown i { animation: pulse 2s infinite; }
+
+/* ============ ENTRY WIZARD SECTION ============ */
+#entry-wizard {
+  padding: 100px 50px;
+  background: var(--green-deeper);
+  position: relative;
+  overflow: hidden;
+}
+#entry-wizard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(197,165,90,0.06) 0%, transparent 50%);
+}
+#entry-wizard .section-header h2 { color: var(--white); }
+#entry-wizard .section-header h2 span { color: var(--gold); }
+#entry-wizard .section-header p { color: rgba(250,246,238,0.5); }
+#entry-wizard .section-header .overline { color: var(--gold); }
+
+.wizard-container {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.wizard-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  position: relative;
+}
+.wizard-steps::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: rgba(197,165,90,0.2);
+}
+.wizard-steps .step-progress {
+  position: absolute;
+  top: 22px;
+  left: 10%;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  width: 0%;
+}
+.wizard-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  z-index: 2;
+}
+.wizard-step .step-circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(197,165,90,0.15);
+  border: 2px solid rgba(197,165,90,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.4s;
+}
+.wizard-step.active .step-circle {
+  background: var(--gradient-gold);
+  color: var(--green-dark);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(197,165,90,0.4);
+}
+.wizard-step.completed .step-circle {
+  background: var(--gold);
+  color: var(--green-dark);
+  border-color: var(--gold);
+}
+.wizard-step .step-label {
+  font-size: 0.72rem;
+  color: rgba(250,246,238,0.4);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+.wizard-step.active .step-label { color: var(--gold); }
+.wizard-step.completed .step-label { color: var(--gold-light); }
+
+.wizard-panel {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(197,165,90,0.15);
+  border-radius: 24px;
+  padding: 50px;
+  display: none;
+}
+.wizard-panel.active { display: block; animation: fadeSlideUp 0.5s ease; }
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.wizard-panel h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.wizard-panel p.desc {
+  color: rgba(250,246,238,0.5);
+  margin-bottom: 30px;
+  font-size: 0.95rem;
+}
+
+.form-group { margin-bottom: 24px; }
+.form-group label {
+  display: block;
+  color: var(--gold-light);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(197,165,90,0.2);
+  border-radius: 12px;
+  color: var(--white);
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.3s;
+}
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(197,165,90,0.1);
+  background: rgba(255,255,255,0.12);
+}
+.form-group select option { background: var(--green-deeper); color: var(--cream); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.wizard-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.wizard-nav .btn-wizard {
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+}
+.btn-wizard.prev {
+  background: transparent;
+  border: 2px solid rgba(197,165,90,0.3);
+  color: var(--gold-light);
+}
+.btn-wizard.prev:hover { border-color: var(--gold); color: var(--gold); }
+.btn-wizard.next {
+  background: var(--gradient-gold);
+  color: var(--green-dark);
+  box-shadow: var(--shadow-gold);
+}
+.btn-wizard.next:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(197,165,90,0.5); }
+
+/* ============ RESULTS SECTION ============ */
+#results {
+  padding: 100px 50px;
+  background: var(--white);
+}
+.results-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  background: #f5f0e6;
+  border-radius: 16px;
+  padding: 5px;
+  max-width: 600px;
+  margin: 0 auto 50px;
+}
+.results-tab {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  color: #888;
+  transition: all 0.3s;
+}
+.results-tab.active {
+  background: var(--white);
+  color: var(--green-dark);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+.results-table-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.results-table thead {
+  background: var(--green-dark);
+}
+.results-table th {
+  padding: 16px 24px;
+  color: var(--gold-light);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: left;
+}
+.results-table td {
+  padding: 18px 24px;
+  font-size: 0.92rem;
+  border-bottom: 1px solid #f5f0e6;
+}
+.results-table tbody tr {
+  transition: all 0.3s;
+  background: var(--white);
+}
+.results-table tbody tr:hover {
+  background: var(--cream);
+  transform: scale(1.005);
+}
+.results-table .club-name {
+  font-weight: 600;
+  color: var(--charcoal);
+}
+.results-table .view-link {
+  color: var(--green-dark);
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.3s;
+}
+.results-table .view-link:hover { color: var(--gold-dark); }
+.results-table .status-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.status-live { background: #D1FAE5; color: #065F46; }
+.status-pending { background: #FEF3C7; color: #92400E; }
+.status-complete { background: #DBEAFE; color: #1E40AF; }
+
+/* ============ QUICK LINKS / RESOURCES ============ */
+#resources {
+  padding: 100px 50px;
+  background: var(--cream);
+}
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.resource-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 36px 28px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 1px solid rgba(0,0,0,0.05);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.resource-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-gold);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.resource-card:hover::before { opacity: 1; }
+.resource-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+}
+.resource-card .icon-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(27,77,62,0.08), rgba(27,77,62,0.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  transition: all 0.4s;
+}
+.resource-card:hover .icon-circle {
+  background: var(--green-dark);
+  transform: scale(1.1);
+}
+.resource-card .icon-circle i {
+  font-size: 1.6rem;
+  color: var(--green-dark);
+  transition: color 0.3s;
+}
+.resource-card:hover .icon-circle i { color: var(--gold); }
+.resource-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--charcoal);
+}
+.resource-card p {
+  font-size: 0.88rem;
+  color: #888;
+  line-height: 1.5;
+}
+
+/* ============ IMPORTANT NOTICES SECTION ============ */
+#notices {
+  padding: 80px 50px;
+  background: var(--white);
+}
+.notices-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.notice-item {
+  background: var(--cream);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 16px;
+  border-left: 4px solid var(--gold);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.notice-item:hover {
+  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  transform: translateX(4px);
+}
+.notice-item .notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notice-item .notice-header h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.notice-item .notice-header h4 i { color: var(--gold-dark); font-size: 1rem; }
+.notice-item .notice-header .toggle-icon {
+  color: var(--gold-dark);
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+.notice-item.open .toggle-icon { transform: rotate(180deg); }
+.notice-item .notice-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.3s;
+  padding-top: 0;
+}
+.notice-item.open .notice-body {
+  max-height: 300px;
+  padding-top: 16px;
+}
+.notice-item .notice-body p {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* ============ CONTACT / FOOTER ============ */
+#contact {
+  padding: 100px 50px;
+  background: var(--green-deeper);
+  position: relative;
+  overflow: hidden;
+}
+#contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(197,165,90,0.06) 0%, transparent 50%);
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.contact-info h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: var(--white);
+  margin-bottom: 20px;
+  line-height: 1.15;
+}
+.contact-info h2 span { color: var(--gold); }
+.contact-info .tagline {
+  color: rgba(250,246,238,0.5);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+.contact-details { display: flex; flex-direction: column; gap: 24px; }
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.contact-item .icon-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: rgba(197,165,90,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.contact-item .icon-box i { color: var(--gold); font-size: 1.1rem; }
+.contact-item .text .label {
+  font-size: 0.72rem;
+  color: rgba(250,246,238,0.4);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+.contact-item .text .value {
+  color: var(--cream);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 2px;
+}
+.contact-item .text .value a { color: var(--gold-light); text-decoration: none; }
+.contact-item .text .value a:hover { text-decoration: underline; }
+
+.contact-form {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(197,165,90,0.15);
+  border-radius: 24px;
+  padding: 40px;
+}
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(197,165,90,0.2);
+  border-radius: 12px;
+  color: var(--white);
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.3s;
+  margin-bottom: 16px;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(197,165,90,0.1);
+}
+.contact-form textarea { min-height: 120px; resize: vertical; }
+.contact-form button {
+  width: 100%;
+  padding: 16px;
+  background: var(--gradient-gold);
+  color: var(--green-dark);
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.contact-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+footer {
+  background: #0A1F18;
+  padding: 40px 50px;
+  text-align: center;
+}
+footer .footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+footer .footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+footer .footer-logo img { height: 40px; width: 40px; border-radius: 50%; object-fit: contain; }
+footer .footer-logo span {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  font-size: 1rem;
+  font-weight: 700;
+}
+footer .footer-text {
+  color: rgba(250,246,238,0.3);
+  font-size: 0.82rem;
+}
+footer .footer-badges {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+footer .footer-badges .badge-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(250,246,238,0.4);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+footer .footer-badges .badge-item i { color: var(--gold-dark); }
+
+/* ============ BACK TO TOP ============ */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--green-dark);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s;
+  border: 2px solid var(--gold);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.back-to-top:hover {
+  background: var(--gold);
+  color: var(--green-dark);
+  transform: translateY(-4px);
+}
+
+/* ============ ANIMATIONS ON SCROLL ============ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1024px) {
+  .resources-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  h1.hero-title { font-size: 3.2rem; }
+  .hero-stats { gap: 30px; }
+}
+@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  nav.scrolled { padding: 10px 20px; }
+  nav .nav-links { display: none; }
+  .hamburger { display: flex; }
+  nav .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,46,37,0.98);
+    backdrop-filter: blur(20px);
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    z-index: 1000;
+  }
+  nav .nav-links.open a { font-size: 1.2rem; padding: 12px 24px; }
+  h1.hero-title { font-size: 2.4rem; }
+  .hero-subtitle { font-size: 1.1rem; }
+  .hero-stats { flex-direction: column; gap: 20px; }
+  #shows, #entry-wizard, #results, #resources, #notices, #contact { padding: 60px 20px; }
+  .shows-grid { grid-template-columns: 1fr; }
+  .resources-grid { grid-template-columns: 1fr; }
+  .section-header h2 { font-size: 2.2rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .wizard-panel { padding: 30px 20px; }
+  footer .footer-inner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="logo-pulse">
+    <img src="Jack new Logo.png" alt="Onofrio">
+  </div>
+  <div class="loading-bar"></div>
+</div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- PARTICLES -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- NAVIGATION -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">
+    <img src="Jack new Logo.png" alt="Onofrio Dog Shows">
+    <span>ONOFRIO</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero" class="active">Home</a></li>
+    <li><a href="#shows">Upcoming Shows</a></li>
+    <li><a href="#entry-wizard">Enter a Show</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#notices">Notices</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://www.onofrio.com/entry/index.html" class="nav-cta" target="_blank">Enter Online <i class="fas fa-arrow-right"></i></a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section id="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-floating-elements">
+    <div class="float-ring"></div>
+    <div class="float-ring"></div>
+    <div class="float-ring"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-logo-container">
+      <div class="hero-logo-glow"></div>
+      <img src="Jack new Logo.png" alt="Jack Onofrio Dog Shows">
+    </div>
+    <div class="hero-badge"><i class="fas fa-shield-alt"></i> AKC Licensed Superintendent Since 1969</div>
+    <h1 class="hero-title">
+      The <span class="gold italic">Premier</span> Dog Show<br>Experience Starts Here
+    </h1>
+    <p class="hero-subtitle">
+      Enter, compete, and celebrate the finest in purebred dogs.<br>
+      Your championship journey begins with a single entry.
+    </p>
+    <div class="hero-buttons">
+      <a href="#entry-wizard" class="btn-primary"><i class="fas fa-pen-fancy"></i> Enter a Show</a>
+      <a href="#shows" class="btn-secondary"><i class="fas fa-calendar-alt"></i> View Upcoming Shows</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="number" data-target="55">0</div>
+        <div class="label">Years of Excellence</div>
+      </div>
+      <div class="hero-stat">
+        <div class="number" data-target="2500">0</div>
+        <div class="label">Shows Annually</div>
+      </div>
+      <div class="hero-stat">
+        <div class="number" data-target="200">0</div>
+        <div class="label">Breeds Represented</div>
+      </div>
+      <div class="hero-stat">
+        <div class="number" data-target="50">0</div>
+        <div class="label">States Covered</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="mouse"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- UPCOMING SHOWS -->
+<section id="shows">
+  <div class="section-header reveal">
+    <div class="overline">Upcoming Events</div>
+    <h2>Find Your Next <span>Show</span></h2>
+    <p>Browse upcoming events, filter by type, and enter directly. All closing times are Central Time.</p>
+  </div>
+
+  <div class="shows-search reveal">
+    <i class="fas fa-search"></i>
+    <input type="text" id="showSearch" placeholder="Search by club name, city, or state..." oninput="filterShows()">
+  </div>
+
+  <div class="shows-filter-bar reveal">
+    <button class="filter-btn active" onclick="setFilter('all', this)">All Shows</button>
+    <button class="filter-btn" onclick="setFilter('nohs', this)">NOHS</button>
+    <button class="filter-btn" onclick="setFilter('obedience', this)">Obedience</button>
+    <button class="filter-btn" onclick="setFilter('rally', this)">Rally</button>
+    <button class="filter-btn" onclick="setFilter('bp', this)">Beginner Puppy</button>
+    <button class="filter-btn" onclick="setFilter('open', this)">FSS Open</button>
+  </div>
+
+  <div class="shows-grid" id="showsGrid">
+    <!-- Cards injected by JS -->
+  </div>
+</section>
+
+<!-- ENTRY WIZARD -->
+<section id="entry-wizard">
+  <div class="section-header reveal">
+    <div class="overline">Online Entry</div>
+    <h2>Enter a Show in <span>Minutes</span></h2>
+    <p>Our streamlined entry process gets you from registration to ring-ready in just a few steps.</p>
+  </div>
+
+  <div class="wizard-container reveal">
+    <div class="wizard-steps">
+      <div class="step-progress" id="stepProgress"></div>
+      <div class="wizard-step active" data-step="1" onclick="goToStep(1)">
+        <div class="step-circle">1</div>
+        <div class="step-label">Dog Info</div>
+      </div>
+      <div class="wizard-step" data-step="2" onclick="goToStep(2)">
+        <div class="step-circle">2</div>
+        <div class="step-label">Show Select</div>
+      </div>
+      <div class="wizard-step" data-step="3" onclick="goToStep(3)">
+        <div class="step-circle">3</div>
+        <div class="step-label">Owner</div>
+      </div>
+      <div class="wizard-step" data-step="4" onclick="goToStep(4)">
+        <div class="step-circle">4</div>
+        <div class="step-label">Review</div>
+      </div>
+    </div>
+
+    <div class="wizard-panel active" id="panel1">
+      <h3>Dog Information</h3>
+      <p class="desc">Enter your dog's registration details below.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>AKC Registration #</label>
+          <input type="text" placeholder="e.g. SS12345678">
+        </div>
+        <div class="form-group">
+          <label>Registered Name</label>
+          <input type="text" placeholder="Full registered name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Breed</label>
+          <select>
+            <option value="">Select Breed...</option>
+            <option>German Shepherd Dog</option>
+            <option>Golden Retriever</option>
+            <option>Labrador Retriever</option>
+            <option>Poodle (Standard)</option>
+            <option>Bulldog</option>
+            <option>Beagle</option>
+            <option>Rottweiler</option>
+            <option>Doberman Pinscher</option>
+            <option>Siberian Husky</option>
+            <option>Great Dane</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Sex</label>
+          <select>
+            <option value="">Select...</option>
+            <option>Dog (Male)</option>
+            <option>Bitch (Female)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date of Birth</label>
+          <input type="date">
+        </div>
+        <div class="form-group">
+          <label>Class</label>
+          <select>
+            <option value="">Select Class...</option>
+            <option>Puppy 6-9 months</option>
+            <option>Puppy 9-12 months</option>
+            <option>12-18 months</option>
+            <option>Novice</option>
+            <option>Amateur-Owner-Handler</option>
+            <option>Bred-By-Exhibitor</option>
+            <option>American Bred</option>
+            <option>Open</option>
+            <option>Best of Breed</option>
+          </select>
+        </div>
+      </div>
+      <div class="wizard-nav">
+        <div></div>
+        <button class="btn-wizard next" onclick="goToStep(2)">Continue <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <div class="wizard-panel" id="panel2">
+      <h3>Select Your Show</h3>
+      <p class="desc">Choose from upcoming events currently accepting entries.</p>
+      <div class="form-group">
+        <label>State / Region</label>
+        <select>
+          <option value="">Select State...</option>
+          <option>Iowa</option>
+          <option>Kansas</option>
+          <option>Alabama</option>
+          <option>Louisiana</option>
+          <option>New Mexico</option>
+          <option>Oklahoma</option>
+          <option>Missouri</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Show / Club</label>
+        <select>
+          <option value="">Select Show...</option>
+          <option>Mason City Kennel Club - Apr 18-19, Mason City IA</option>
+          <option>Garden City Kansas KC - Apr 17-19, Garden City KS</option>
+          <option>Cahaba Valley / Montgomery KC - Apr 16-19, Montgomery AL</option>
+          <option>Bayou Kennel Club - Apr 16-19, Ruston LA</option>
+          <option>Mesilla Valley KC - Apr 17-19, Las Cruces NM</option>
+          <option>Mid-Continent KC of Tulsa - Apr 22-26, Tulsa OK</option>
+          <option>Spirit of the Heartland KC - May 2-3, Gray Summit MO</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Event Type</label>
+        <select>
+          <option value="">Select Type...</option>
+          <option>Conformation</option>
+          <option>Obedience</option>
+          <option>Rally</option>
+          <option>Beginner Puppy</option>
+          <option>NOHS (Owner-Handled)</option>
+          <option>FSS Open Show</option>
+        </select>
+      </div>
+      <div class="wizard-nav">
+        <button class="btn-wizard prev" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
+        <button class="btn-wizard next" onclick="goToStep(3)">Continue <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <div class="wizard-panel" id="panel3">
+      <h3>Owner & Handler</h3>
+      <p class="desc">Provide the registered owner and handler information.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Owner Name</label>
+          <input type="text" placeholder="First and Last Name">
+        </div>
+        <div class="form-group">
+          <label>Handler (if different)</label>
+          <input type="text" placeholder="Handler name or 'Owner'">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="your@email.com">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="(555) 123-4567">
+        </div>
+        <div class="form-group">
+          <label>AKC Owner ID</label>
+          <input type="text" placeholder="Optional">
+        </div>
+      </div>
+      <div class="wizard-nav">
+        <button class="btn-wizard prev" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
+        <button class="btn-wizard next" onclick="goToStep(4)">Review Entry <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <div class="wizard-panel" id="panel4">
+      <h3>Review & Submit</h3>
+      <p class="desc">Review your entry details before submitting.</p>
+      <div style="background: rgba(197,165,90,0.08); border-radius: 16px; padding: 28px; border: 1px solid rgba(197,165,90,0.15); margin-bottom: 20px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div>
+            <div style="font-size: 0.7rem; color: rgba(250,246,238,0.4); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;">Dog</div>
+            <div style="color: var(--cream); font-weight: 600;">Your Registered Dog Name</div>
+          </div>
+          <div>
+            <div style="font-size: 0.7rem; color: rgba(250,246,238,0.4); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;">Show</div>
+            <div style="color: var(--cream); font-weight: 600;">Selected Show Name</div>
+          </div>
+          <div>
+            <div style="font-size: 0.7rem; color: rgba(250,246,238,0.4); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;">Class</div>
+            <div style="color: var(--cream); font-weight: 600;">Selected Class</div>
+          </div>
+          <div>
+            <div style="font-size: 0.7rem; color: rgba(250,246,238,0.4); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;">Entry Fee</div>
+            <div style="color: var(--gold); font-weight: 700; font-size: 1.2rem;">$35.00</div>
+          </div>
+        </div>
+      </div>
+      <div style="color: rgba(250,246,238,0.4); font-size: 0.85rem; line-height: 1.6; margin-bottom: 20px;">
+        By submitting this entry, you certify that the information above is correct and that the dog is eligible for this event under AKC rules.
+      </div>
+      <div class="wizard-nav">
+        <button class="btn-wizard prev" onclick="goToStep(3)"><i class="fas fa-arrow-left"></i> Back</button>
+        <a href="https://www.onofrio.com/entry/index.html" target="_blank" class="btn-wizard next" style="text-decoration:none;">Submit via Onofrio <i class="fas fa-external-link-alt"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="section-header reveal">
+    <div class="overline">Show Results</div>
+    <h2>Recent <span>Results</span></h2>
+    <p>View catalogs, real-time results, and archived event data from recent shows.</p>
+  </div>
+
+  <div class="results-tabs reveal">
+    <button class="results-tab active" onclick="setResultsTab('recent', this)">Recent</button>
+    <button class="results-tab" onclick="setResultsTab('live', this)">Live Now</button>
+    <button class="results-tab" onclick="setResultsTab('archived', this)">Archived</button>
+  </div>
+
+  <div class="results-table-container reveal">
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Club / Event</th>
+          <th>Location</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="resultsBody">
+        <tr>
+          <td class="club-name">Alaska Kennel Club, Inc. (1)</td>
+          <td>Anchorage, AK</td>
+          <td>March 21, 2026</td>
+          <td><span class="status-badge status-complete">Complete</span></td>
+          <td><a href="#" class="view-link">View Results <i class="fas fa-arrow-right"></i></a></td>
+        </tr>
+        <tr>
+          <td class="club-name">Alaska Kennel Club, Inc. (2)</td>
+          <td>Anchorage, AK</td>
+          <td>March 22, 2026</td>
+          <td><span class="status-badge status-complete">Complete</span></td>
+          <td><a href="#" class="view-link">View Results <i class="fas fa-arrow-right"></i></a></td>
+        </tr>
+        <tr>
+          <td class="club-name">Clinton Iowa Kennel Club, Inc. (1)</td>
+          <td>Clinton, IA</td>
+          <td>March 22, 2026</td>
+          <td><span class="status-badge status-complete">Complete</span></td>
+          <td><a href="#" class="view-link">View Results <i class="fas fa-arrow-right"></i></a></td>
+        </tr>
+        <tr>
+          <td class="club-name">Mason City Kennel Club, Inc. (1)</td>
+          <td>Mason City, IA</td>
+          <td>April 18, 2026</td>
+          <td><span class="status-badge status-pending">Upcoming</span></td>
+          <td><a href="#" class="view-link">View Premium <i class="fas fa-arrow-right"></i></a></td>
+        </tr>
+        <tr>
+          <td class="club-name">Mid-Continent KC of Tulsa (1)</td>
+          <td>Tulsa, OK</td>
+          <td>April 24, 2026</td>
+          <td><span class="status-badge status-pending">Upcoming</span></td>
+          <td><a href="#" class="view-link">View Premium <i class="fas fa-arrow-right"></i></a></td>
+        </tr>
+        <tr>
+          <td class="club-name">Spirit of the Heartland KC</td>
+          <td>Gray Summit, MO</td>
+          <td>May 2, 2026</td>
+          <td><span class="status-badge status-pending">Upcoming</span></td>
+          <td><a href="#" class="view-link">View Premium <i class="fas fa-arrow-right"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources">
+  <div class="section-header reveal">
+    <div class="overline">Resources</div>
+    <h2>Everything You <span>Need</span></h2>
+    <p>Quick access to essential resources for exhibitors, clubs, and newcomers.</p>
+  </div>
+
+  <div class="resources-grid">
+    <div class="resource-card reveal reveal-delay-1" onclick="window.open('https://www.onofrio.com/entry/index.html','_blank')">
+      <div class="icon-circle"><i class="fas fa-trophy"></i></div>
+      <h4>AKC Points Schedule</h4>
+      <p>Current point schedules by breed and group for championship calculations.</p>
+    </div>
+    <div class="resource-card reveal reveal-delay-2" onclick="window.open('https://www.onofrio.com','_blank')">
+      <div class="icon-circle"><i class="fas fa-book-open"></i></div>
+      <h4>Rules & Regulations</h4>
+      <p>Official AKC rules governing conformation, obedience, rally and more.</p>
+    </div>
+    <div class="resource-card reveal reveal-delay-3" onclick="window.open('https://www.onofrio.com','_blank')">
+      <div class="icon-circle"><i class="fas fa-file-download"></i></div>
+      <h4>Entry Forms</h4>
+      <p>Download printable entry forms for mail-in submissions with check payment.</p>
+    </div>
+    <div class="resource-card reveal reveal-delay-4" onclick="window.open('https://www.onofrio.com','_blank')">
+      <div class="icon-circle"><i class="fas fa-newspaper"></i></div>
+      <h4>Catalog Advertising</h4>
+      <p>Advertise in show catalogs. Guidelines, rates, and submission info.</p>
+    </div>
+    <div class="resource-card reveal reveal-delay-1">
+      <div class="icon-circle"><i class="fas fa-graduation-cap"></i></div>
+      <h4>New Exhibitor Guide</h4>
+      <p>New to the Fancy? Download the exhibitor orientation brochure and get started.</p>
+    </div>
+    <div class="resource-card reveal reveal-delay-2">
+      <div class="icon-circle"><i class="fas fa-paw"></i></div>
+      <h4>AKC Registration</h4>
+      <p>Register your dog online through AKC's registration and litter services.</p>
+    </div>
+    <div class="resource-card reveal reveal-delay-3">
+      <div class="icon-circle"><i class="fas fa-users"></i></div>
+      <h4>Club Community</h4>
+      <p>Connect with kennel clubs, access superintendent services, and event tools.</p>
+    </div>
+    <div class="resource-card reveal reveal-delay-4">
+      <div class="icon-circle"><i class="fas fa-plane"></i></div>
+      <h4>Travel Services</h4>
+      <p>Jack's Travel Professionals International — show circuit travel planning.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NOTICES -->
+<section id="notices">
+  <div class="section-header reveal">
+    <div class="overline">Important</div>
+    <h2>Exhibitor <span>Notices</span></h2>
+  </div>
+
+  <div class="notices-container">
+    <div class="notice-item reveal" onclick="toggleNotice(this)">
+      <div class="notice-header">
+        <h4><i class="fas fa-exclamation-triangle"></i> Fax/Email Entries No Longer Accepted</h4>
+        <i class="fas fa-chevron-down toggle-icon"></i>
+      </div>
+      <div class="notice-body">
+        <p>Effective immediately, fax and email entries are not acceptable and will not be processed. Online entries and checks by mail remain fully supported. Paper entries with credit card information will be shredded upon delivery to protect your security. We always accept entries with check payment at any of our shows.</p>
+      </div>
+    </div>
+
+    <div class="notice-item reveal" onclick="toggleNotice(this)">
+      <div class="notice-header">
+        <h4><i class="fas fa-envelope"></i> Mail Delivery Delays</h4>
+        <i class="fas fa-chevron-down toggle-icon"></i>
+      </div>
+      <div class="notice-body">
+        <p>We have received multiple reports of first class mail taking up to 10 days for delivery. Club/show entry forms are available for printing from the Upcoming Shows page. Please fill out and mail entries as early as possible to avoid late arrivals due to postal delivery timeframes.</p>
+      </div>
+    </div>
+
+    <div class="notice-item reveal" onclick="toggleNotice(this)">
+      <div class="notice-header">
+        <h4><i class="fas fa-globe-americas"></i> Foreign Dog Importation Updates</h4>
+        <i class="fas fa-chevron-down toggle-icon"></i>
+      </div>
+      <div class="notice-body">
+        <p>Exhibitors of foreign dogs should visit the CDC importation page for the most recent updates regarding bringing a dog into the United States. Requirements and regulations are subject to change.</p>
+      </div>
+    </div>
+
+    <div class="notice-item reveal" onclick="toggleNotice(this)">
+      <div class="notice-header">
+        <h4><i class="fas fa-clock"></i> Show Closing Times</h4>
+        <i class="fas fa-chevron-down toggle-icon"></i>
+      </div>
+      <div class="notice-body">
+        <p>All shows close at the listed day, date, and time (Central) as published on this site. Entries received after the closing deadline cannot be accepted. Plan your submissions accordingly.</p>
+      </div>
+    </div>
+
+    <div class="notice-item reveal" onclick="toggleNotice(this)">
+      <div class="notice-header">
+        <h4><i class="fas fa-id-card"></i> Dog Registration Requirement</h4>
+        <i class="fas fa-chevron-down toggle-icon"></i>
+      </div>
+      <div class="notice-body">
+        <p>Reminder: As of January 1, 2010, all dogs must be fully registered by the day of the event you want to enter and compete. Use AKC's online registration service for fast and easy registration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h2>Get in <span>Touch</span></h2>
+      <p class="tagline">Whether you have questions about entries, results, or club services, we're here to help exhibitors succeed in the ring.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
+          <div class="text">
+            <div class="label">Telephone</div>
+            <div class="value">502.495.6944</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="icon-box"><i class="fas fa-fax"></i></div>
+          <div class="text">
+            <div class="label">Fax</div>
+            <div class="value">502.495.6254</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="icon-box"><i class="fas fa-envelope"></i></div>
+          <div class="text">
+            <div class="label">Email</div>
+            <div class="value"><a href="mailto:Kyle.Robinson@onofrio.com">Kyle.Robinson@onofrio.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="icon-box"><i class="fas fa-globe"></i></div>
+          <div class="text">
+            <div class="label">Website</div>
+            <div class="value"><a href="https://www.onofrio.com" target="_blank">www.onofrio.com</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <input type="text" placeholder="Your Name">
+      <input type="email" placeholder="Email Address">
+      <input type="text" placeholder="Subject">
+      <textarea placeholder="Your message..."></textarea>
+      <button type="button" onclick="this.innerHTML='<i class=\'fas fa-check\'></i> Message Sent!'; this.style.background='var(--green-medium)'; this.style.color='var(--cream)';">Send Message <i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <img src="Jack new Logo.png" alt="Onofrio">
+      <span>ONOFRIO DOG SHOWS</span>
+    </div>
+    <div class="footer-text">&copy; 2026 Jack Onofrio Dog Shows, LLC. All rights reserved.</div>
+    <div class="footer-badges">
+      <div class="badge-item"><i class="fas fa-shield-alt"></i> AKC Licensed</div>
+      <div class="badge-item"><i class="fas fa-lock"></i> PCI Validated</div>
+      <div class="badge-item"><i class="fas fa-award"></i> DSSA Member</div>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<div class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fas fa-arrow-up"></i>
+</div>
+
+<script>
+// ============ SHOW DATA ============
+const showsData = [
+  {
+    club: "Mason City Kennel Club, Inc.",
+    location: "Mason City, IA",
+    dates: "April 18-19, 2026",
+    closing: "04/01/2026 @ 12:00 PM",
+    closingDate: new Date('2026-04-01T12:00:00'),
+    month: "APR",
+    day: "18",
+    tags: ["nohs", "obedience", "rally"],
+    category: "all nohs obedience rally"
+  },
+  {
+    club: "Garden City Kansas Kennel Club",
+    location: "Garden City, KS",
+    dates: "April 17-19, 2026",
+    closing: "04/01/2026 @ 12:00 PM",
+    closingDate: new Date('2026-04-01T12:00:00'),
+    month: "APR",
+    day: "17",
+    tags: ["obedience", "rally", "bp"],
+    category: "all obedience rally bp"
+  },
+  {
+    club: "Cahaba Valley / Montgomery KC",
+    location: "Montgomery, AL",
+    dates: "April 16-19, 2026",
+    closing: "04/01/2026 @ 12:00 PM",
+    closingDate: new Date('2026-04-01T12:00:00'),
+    month: "APR",
+    day: "16",
+    tags: ["bp"],
+    category: "all bp"
+  },
+  {
+    club: "Bayou Kennel Club, Inc.",
+    location: "Ruston, LA",
+    dates: "April 16-19, 2026",
+    closing: "04/01/2026 @ 12:00 PM",
+    closingDate: new Date('2026-04-01T12:00:00'),
+    month: "APR",
+    day: "16",
+    tags: ["bp"],
+    category: "all bp"
+  },
+  {
+    club: "Mesilla Valley Kennel Club",
+    location: "Las Cruces, NM",
+    dates: "April 17-19, 2026",
+    closing: "04/01/2026 @ 1:00 PM",
+    closingDate: new Date('2026-04-01T13:00:00'),
+    month: "APR",
+    day: "17",
+    tags: ["bp"],
+    category: "all bp"
+  },
+  {
+    club: "Mid-Continent KC of Tulsa",
+    location: "Tulsa, OK",
+    dates: "April 22-26, 2026",
+    closing: "04/08/2026 @ 12:00 PM",
+    closingDate: new Date('2026-04-08T12:00:00'),
+    month: "APR",
+    day: "22",
+    tags: ["nohs", "obedience", "rally", "bp", "open"],
+    category: "all nohs obedience rally bp open"
+  },
+  {
+    club: "Spirit of the Heartland KC",
+    location: "Gray Summit, MO",
+    dates: "May 2-3, 2026",
+    closing: "04/15/2026 @ 12:00 PM",
+    closingDate: new Date('2026-04-15T12:00:00'),
+    month: "MAY",
+    day: "2",
+    tags: ["obedience", "rally", "bp", "open"],
+    category: "all obedience rally bp open"
+  },
+  {
+    club: "Rolla Missouri Kennel Club",
+    location: "Gray Summit, MO",
+    dates: "May 1, 2026",
+    closing: "04/15/2026 @ 12:00 PM",
+    closingDate: new Date('2026-04-15T12:00:00'),
+    month: "MAY",
+    day: "1",
+    tags: [],
+    category: "all"
+  }
+];
+
+let currentFilter = 'all';
+
+function getCountdown(closingDate) {
+  const now = new Date();
+  const diff = closingDate - now;
+  if (diff <= 0) return "Entries Closed";
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  if (days > 0) return `${days}d ${hours}h remaining`;
+  return `${hours}h remaining`;
+}
+
+function getTagBadge(tag) {
+  const map = {
+    nohs: '<span class="badge badge-nohs">NOHS</span>',
+    obedience: '<span class="badge badge-obedience">Obed</span>',
+    rally: '<span class="badge badge-rally">Rally</span>',
+    bp: '<span class="badge badge-bp">Beg Puppy</span>',
+    open: '<span class="badge badge-open">FSS Open</span>',
+  };
+  return map[tag] || '';
+}
+
+function renderShows() {
+  const grid = document.getElementById('showsGrid');
+  const search = document.getElementById('showSearch').value.toLowerCase();
+  grid.innerHTML = '';
+
+  showsData.forEach((show, i) => {
+    if (currentFilter !== 'all' && !show.category.includes(currentFilter)) return;
+    if (search && !show.club.toLowerCase().includes(search) && !show.location.toLowerCase().includes(search)) return;
+
+    const countdown = getCountdown(show.closingDate);
+    const isUrgent = show.closingDate - new Date() < 1000 * 60 * 60 * 24 * 3;
+
+    grid.innerHTML += `
+      <div class="show-card reveal" style="animation-delay: ${i * 0.08}s">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-date">
+              <div class="month">${show.month}</div>
+              <div class="day">${show.day}</div>
+            </div>
+            <div class="card-badges">${show.tags.map(getTagBadge).join('')}</div>
+          </div>
+          <h3>${show.club}</h3>
+          <div class="location"><i class="fas fa-map-marker-alt"></i> ${show.location} &mdash; ${show.dates}</div>
+          <div class="card-meta">
+            <div>
+              <div class="closing">Closes: <strong>${show.closing}</strong></div>
+              <div class="countdown" style="${isUrgent ? 'color:#DC2626;' : ''}"><i class="fas fa-hourglass-half"></i> ${countdown}</div>
+            </div>
+            <button class="enter-btn" onclick="window.open('https://www.onofrio.com/entry/index.html','_blank')">Enter <i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  // Trigger reveal on new cards
+  setTimeout(() => {
+    document.querySelectorAll('.show-card.reveal').forEach(el => el.classList.add('visible'));
+  }, 100);
+}
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderShows();
+}
+
+function filterShows() { renderShows(); }
+
+// ============ WIZARD ============
+let currentStep = 1;
+function goToStep(step) {
+  currentStep = step;
+  document.querySelectorAll('.wizard-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel' + step).classList.add('active');
+
+  document.querySelectorAll('.wizard-step').forEach(s => {
+    const sNum = parseInt(s.dataset.step);
+    s.classList.remove('active', 'completed');
+    if (sNum === step) s.classList.add('active');
+    else if (sNum < step) s.classList.add('completed');
+  });
+
+  const progress = ((step - 1) / 3) * 80;
+  document.getElementById('stepProgress').style.width = progress + '%';
+}
+
+// ============ RESULTS TABS ============
+function setResultsTab(tab, btn) {
+  document.querySelectorAll('.results-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ============ NOTICES ACCORDION ============
+function toggleNotice(el) {
+  el.classList.toggle('open');
+}
+
+// ============ NAVIGATION ============
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// Close mobile menu on link click
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+});
+
+// Scroll effects
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  const btt = document.getElementById('backToTop');
+  if (window.scrollY > 80) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+  if (window.scrollY > 600) btt.classList.add('visible');
+  else btt.classList.remove('visible');
+
+  // Active nav link
+  document.querySelectorAll('section[id]').forEach(section => {
+    const top = section.offsetTop - 200;
+    const bottom = top + section.offsetHeight;
+    const id = section.getAttribute('id');
+    const link = document.querySelector(`.nav-links a[href="#${id}"]`);
+    if (link) {
+      if (window.scrollY >= top && window.scrollY < bottom) link.classList.add('active');
+      else link.classList.remove('active');
+    }
+  });
+});
+
+// ============ SCROLL REVEAL ============
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ============ COUNTER ANIMATION ============
+function animateCounters() {
+  document.querySelectorAll('.hero-stat .number').forEach(counter => {
+    const target = parseInt(counter.dataset.target);
+    const duration = 2000;
+    const start = performance.now();
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      counter.textContent = Math.floor(eased * target).toLocaleString() + (target >= 100 ? '+' : '+');
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  });
+}
+
+// ============ PARTICLES ============
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.3 + 0.1;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(197, 165, 90, ${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ============ CUSTOM CURSOR ============
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  dot.style.left = mouseX - 4 + 'px';
+  dot.style.top = mouseY - 4 + 'px';
+});
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.15;
+  ringY += (mouseY - ringY) * 0.15;
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+document.querySelectorAll('a, button, .show-card, .resource-card, .notice-item, .filter-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+});
+
+// ============ PRELOADER ============
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hidden');
+    animateCounters();
+    renderShows();
+  }, 2200);
+});
+
+// ============ COUNTDOWN UPDATER ============
+setInterval(() => {
+  document.querySelectorAll('.countdown').forEach((el, i) => {
+    if (showsData[i]) {
+      const cd = getCountdown(showsData[i].closingDate);
+      const icon = el.querySelector('i');
+      el.innerHTML = '';
+      if (icon) el.appendChild(icon.cloneNode(true));
+      else {
+        const newIcon = document.createElement('i');
+        newIcon.className = 'fas fa-hourglass-half';
+        el.appendChild(newIcon);
+      }
+      el.appendChild(document.createTextNode(' ' + cd));
+    }
+  });
+}, 60000);
+
+// ============ SMOOTH PARALLAX ON HERO ============
+window.addEventListener('scroll', () => {
+  const hero = document.getElementById('hero');
+  const scrolled = window.scrollY;
+  if (scrolled < window.innerHeight) {
+    hero.querySelector('.hero-content').style.transform = `translateY(${scrolled * 0.3}px)`;
+    hero.querySelector('.hero-content').style.opacity = 1 - (scrolled / (window.innerHeight * 0.8));
+  }
+});
+</script>
+
+</body>
+</html>
